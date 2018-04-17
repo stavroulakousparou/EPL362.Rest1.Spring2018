@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>New Consultation</title>
@@ -26,33 +26,36 @@ html, body {
     height: 100%;
     
 }
-
 html {
     display: table;
     margin: auto;
 }
-
 body {
-
 background-image: url("image.jpg");
 background-size:cover;
 background-attachment:fixed;
 }
-
 </style>
 </head>
 <body class="body">
 <h2 align="center">New Consultation </h2>
-<form action="/action_page.php" method="get">
-  CaseID: <input type="text" CaseId="CaseId"><br>
-<br />
-  Date: <input type="text" date="date"><br>
-<br />
-  Time: <input type="text" time="time"><br>
-<br />
-  <button type="submit" value="Submit">Submit</button>
 
-</form>
+<form action="/action_page.php">
+  <h3>Case ID:</h3>
+  <input type="text"  name="caseid" style="height:20px;width:250px" value="">
+  <p></p>
+  
+  <h3>Date:</h3>
+  <input type="text"  name="date" style="height:20px;width:250px" value="">
+  <p></p>
+  
+  <h3>Time:</h3>
+  <input type="text"  name="time" style="height:20px;width:250px" value="">
+  <p></p>
+  
+  <br></br>
+ <button id = "submit" style="height:25px;width:60px"> Submit </button>
+</form> 
 
 </body>
 </html>
