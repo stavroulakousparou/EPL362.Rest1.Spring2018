@@ -1,4 +1,4 @@
-package hom;
+package HOM;
 
 import java.awt.EventQueue;
 
@@ -14,7 +14,7 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.table.DefaultTableModel;
 
-import gui.*;
+import GUI.*;
 
 import javax.swing.JTable;
 import java.awt.event.MouseAdapter;
@@ -133,7 +133,7 @@ public class WeeklyReportsClient {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frame.setVisible(false);
-				Login f = new Login();
+				loginPage f = new loginPage();
 				f.main(null);
 			}
 		});
