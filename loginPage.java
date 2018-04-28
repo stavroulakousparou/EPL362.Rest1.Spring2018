@@ -4,11 +4,6 @@ import javax.swing.JOptionPane;
 
 import java.awt.EventQueue;
 
-import LegalStaff.*;
-import LRS.*;
-import HOM.*;
-import Receptionist.*;
-
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -16,19 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriBuilder;
 
-import org.glassfish.jersey.client.ClientConfig;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import LegalStaff.*;
 import HOM.HOMViewpoint;
 import LRS.LRSViewpoint;
 import Receptionist.ReceptionistViewpoint;
@@ -37,8 +21,6 @@ import java.awt.Font;
 import javax.swing.JPasswordField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URI;
-import java.awt.Color;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
@@ -83,7 +65,6 @@ public class loginPage {
 
 	public void checkLogIn(String username, String password, String type) {
 		String message = "";
-		//String typeEmployee = "";
 
 		// Establishing connection
 		ConnectDB connection = new ConnectDB();
@@ -210,9 +191,7 @@ public class loginPage {
 			}
 
 		}
-		
-		System.out.println(message);
-		
+				
 		if (message.compareTo("welcome") == 0) {
 
 			if (type.equals("Legal Staff")) {
@@ -231,7 +210,6 @@ public class loginPage {
 				lrsView.main(null);
 
 			} else if (type.equals("Head Office Management")) {
-				System.out.println(message);
 
 				frame.setVisible(false);
 				HOMViewpoint homView = new HOMViewpoint();
@@ -240,7 +218,6 @@ public class loginPage {
 			}
 
 		}
-		System.out.println(userNameU);
 	}
 
 	/**
@@ -275,12 +252,6 @@ public class loginPage {
 				}
 
 				checkLogIn(username, password, type);
-
-				// if (mes.compareTo("welcome") == 0) {
-
-				// }
-
-				System.out.println(username + "   " + password + "  " + type);
 
 			}
 		});
