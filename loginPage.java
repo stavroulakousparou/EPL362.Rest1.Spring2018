@@ -53,10 +53,9 @@ public class loginPage {
 	private JTextField userName_txt;
 	private JPasswordField password_txt;
 	public String userNameU, typeEmp;
-	private String tableName = "";
-	private String typeEmployee = "";
-	
-	
+
+	//private String typeEmployee = "";
+
 	private static Connection conn = null;
 
 	/**
@@ -82,9 +81,9 @@ public class loginPage {
 		initialize();
 	}
 
-	public String checkLogIn(String username, String password, String type) {
-		 String message = "";
-
+	public void checkLogIn(String username, String password, String type) {
+		String message = "";
+		//String typeEmployee = "";
 
 		// Establishing connection
 		ConnectDB connection = new ConnectDB();
@@ -95,28 +94,10 @@ public class loginPage {
 			System.out.println("Connection Failed");
 		}
 
-		if (type.equals("Legal Staff")) {
-			tableName = "LegalSt";
-			typeEmployee = "LegalStaff";
-
-		} else if (type.equals("Receptionist")) {
-			tableName = "Receptionist";
-
-		} else if (type.equals("Legal Records Staff")) {
-			tableName = "LegalSt";
-			typeEmployee = "LegalRecordStaff";
-
-		} else if (type.equals("Head Office Management")) {
-			tableName = "Lawyer";
-
-		}
-		
-		
-
-		if(typeEmployee.equals("LegalStaff") || typeEmployee.equals("LegalRecordStaff")) {
+		if (type.compareTo("Legal Staff") == 0) {
 			
-			String sqlQuery = "SELECT * FROM LegalSt WHERE Username='" + username + "' AND Password = '"
-					+ password +"'";
+			String sqlQuery = "SELECT * FROM LegalSt WHERE Username='" + username + "' AND Password = '" + password
+					+ "' AND Type = 'LegalStaff'";
 			PreparedStatement statement = null;
 
 			try {
@@ -128,35 +109,24 @@ public class loginPage {
 				if (result.next()) {
 
 					userNameU = result.getString("Username");
-					typeEmp = result.getString("Type");
-					
-					/*
-					 if(typeEmp.compareTo(typeEmployee) != 0) {
-						JOptionPane.showMessageDialog(frame, "Invalid Crendentials");
-						userName_txt.setText("");
-						password_txt.setText("");
-						message = "Invalid Crendentials";
-						tableName = "";
-						typeEmployee = "";
-					}
-*/
+				
 					message = "welcome";
-				}else {
+				} else {
 					JOptionPane.showMessageDialog(frame, "Invalid Crendentials");
 					userName_txt.setText("");
 					password_txt.setText("");
 					message = "Invalid Crendentials";
-					tableName = "";
-					typeEmployee = "";
-					
+
 				}
 
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}else  {
-			String sqlQuery = "SELECT * FROM " + tableName + " WHERE Username='" + username + "' AND Password = '"
-					+ password + "'";
+
+		} else if (type.compareTo("Receptionist") == 0) {
+			
+			String sqlQuery = "SELECT * FROM Receptionist WHERE Username='" + username + "' AND Password = '" + password
+					+ "'";
 			PreparedStatement statement = null;
 
 			try {
@@ -168,22 +138,109 @@ public class loginPage {
 				if (result.next()) {
 
 					userNameU = result.getString("Username");
-
-				}else {
+				
+					message = "welcome";
+				} else {
 					JOptionPane.showMessageDialog(frame, "Invalid Crendentials");
 					userName_txt.setText("");
 					password_txt.setText("");
-					
+					message = "Invalid Crendentials";
+
 				}
 
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+
+		} else if (type.compareTo("Legal Records Staff") == 0) {
+		
+			String sqlQuery = "SELECT * FROM LegalSt WHERE Username='" + username + "' AND Password = '" + password
+					+ "' AND Type = 'LegalRecordStaff'";
+			PreparedStatement statement = null;
+
+			try {
+				// create and execute statement
+				statement = conn.prepareStatement(sqlQuery);
+				ResultSet result = statement.executeQuery();
+
+				// Get the strings from the database
+				if (result.next()) {
+
+					userNameU = result.getString("Username");
+				
+					message = "welcome";
+				} else {
+					JOptionPane.showMessageDialog(frame, "Invalid Crendentials");
+					userName_txt.setText("");
+					password_txt.setText("");
+					message = "Invalid Crendentials";
+
+				}
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		} else if (type.equals("Head Office Management")) {
+			String sqlQuery = "SELECT * FROM Lawyer WHERE Username='" + username + "' AND Password = '" + password
+					+ "'";
+			PreparedStatement statement = null;
+
+			try {
+				// create and execute statement
+				statement = conn.prepareStatement(sqlQuery);
+				ResultSet result = statement.executeQuery();
+
+				// Get the strings from the database
+				if (result.next()) {
+
+					userNameU = result.getString("Username");
+				
+					message = "welcome";
+				} else {
+					JOptionPane.showMessageDialog(frame, "Invalid Crendentials");
+					userName_txt.setText("");
+					password_txt.setText("");
+					message = "Invalid Crendentials";
+
+				}
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
 		}
 		
+		System.out.println(message);
+		
+		if (message.compareTo("welcome") == 0) {
 
+			if (type.equals("Legal Staff")) {
+				frame.setVisible(false);
+				LegalStaffViewpoint legalStaffView = new LegalStaffViewpoint();
+				legalStaffView.main(null);
+
+			} else if (type.equals("Receptionist")) {
+				frame.setVisible(false);
+				ReceptionistViewpoint recView = new ReceptionistViewpoint();
+				recView.main(null);
+
+			} else if (type.equals("Legal Records Staff")) {
+				frame.setVisible(false);
+				LRSViewpoint lrsView = new LRSViewpoint();
+				lrsView.main(null);
+
+			} else if (type.equals("Head Office Management")) {
+				System.out.println(message);
+
+				frame.setVisible(false);
+				HOMViewpoint homView = new HOMViewpoint();
+				homView.main(null);
+
+			}
+
+		}
 		System.out.println(userNameU);
-		return message;
 	}
 
 	/**
@@ -217,32 +274,11 @@ public class loginPage {
 					return;
 				}
 
-				String mes = checkLogIn(username, password, type);
+				checkLogIn(username, password, type);
 
-				//if (mes.compareTo("welcome") == 0) {
-					
-					if (type.equals("Legal Staff")) {
-						frame.setVisible(false);
-						LegalStaffViewpoint legalStaffView = new LegalStaffViewpoint();
-						legalStaffView.main(null);
+				// if (mes.compareTo("welcome") == 0) {
 
-					} else if (type.equals("Receptionist")) {
-						frame.setVisible(false);
-						ReceptionistViewpoint recView = new ReceptionistViewpoint();
-						recView.main(null);
-						
-					} else if (type.equals("Legal Record Staff")) {
-						frame.setVisible(false);
-						LRSViewpoint lrsView = new LRSViewpoint();
-						lrsView.main(null);
-
-					} else if (type.equals("Lawyer")) {
-						frame.setVisible(false);
-						HOMViewpoint homView = new HOMViewpoint();
-						homView.main(null);
-					
-				}
-				//}
+				// }
 
 				System.out.println(username + "   " + password + "  " + type);
 
