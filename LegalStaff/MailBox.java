@@ -1,4 +1,7 @@
 package LegalStaff;
+/**
+ * This class is the mailbox, is responsible for letting the user see his / hers mails
+ */
 
 import java.awt.EventQueue;
 
