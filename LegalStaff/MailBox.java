@@ -1,4 +1,4 @@
-package legalStaff;
+package LegalStaff;
 
 import java.awt.EventQueue;
 
@@ -13,7 +13,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
-import gui.*;
+import GUI.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
