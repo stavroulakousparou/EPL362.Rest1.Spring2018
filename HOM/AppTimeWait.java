@@ -106,7 +106,7 @@ public class AppTimeWait {
 
 				// If connection Failed
 				if (conn == null) {
-					System.out.println("Connection Failed");
+					System.out.println("Connectio Failes");
 				}
 				
 				boolean flag = false;

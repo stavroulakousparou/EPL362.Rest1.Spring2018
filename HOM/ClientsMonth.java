@@ -38,11 +38,9 @@ public class ClientsMonth {
 	private JFrame frame;
 	private JTextField branch_txt;
 	private JTable table;
-	
 	private String month = "";
 	private String client = "";
 	private String dateSt = "";
-	
 	private static Connection conn = null;
 
 	/**

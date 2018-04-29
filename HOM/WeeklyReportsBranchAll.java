@@ -36,6 +36,7 @@ public class WeeklyReportsBranchAll {
 	
 	private String numOfClients = "";
 	private String weekly = "";
+	private String day = "";
 	 
 	private static Connection conn = null;
 
