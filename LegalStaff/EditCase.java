@@ -1,9 +1,12 @@
 package LegalStaff;
 
 /**
- * A legal staff edit a case.
+ * Edit case
+ * This class implements the edit case functionality
  * 
  * */
+
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;

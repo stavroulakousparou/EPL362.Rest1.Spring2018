@@ -1,4 +1,4 @@
-package legalStaff;
+package LegalStaff;
 /**
  * This class is responsible to let the user send emails through this app.
  */
@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import gui.*;
+import GUI.*;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -24,7 +24,7 @@ import java.net.URI;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.PreparedStatement;
 
 public class SendEmail {
 
@@ -89,7 +89,7 @@ public class SendEmail {
 				String to = to_txt.getText();
 				String title = title_txt.getText();
 				String body = body_txt.getText();
-				Login lp = new Login();
+				loginPage lp = new loginPage();
 
 				if (to.equals("") || title.equals("") || body.equals("")) {
 					JOptionPane.showMessageDialog(frame, "Fill all fields");
@@ -105,19 +105,24 @@ public class SendEmail {
 					System.out.println("Connection Failed");
 				}
 
-				Statement stmt;
+				PreparedStatement stmt;
 				Account account = Account.getUniqueInstance();
 
 				try {
-					stmt = conn.createStatement();
-					int rs = stmt.executeUpdate("INSERT INTO `Email`(`From`, `To`, `Title`, `Body`) VALUES (" + account.getId()
-							+ ", " + to + ", '" + title + "', '" + body + "');");
-					
-					if (rs == 1)
-						JOptionPane.showMessageDialog(frame, "Email was sent successfully");
-					else
-						JOptionPane.showMessageDialog(frame, "Email didn't sent!");
+					stmt = conn.prepareStatement("INSERT INTO `Email`(`From`, `To`, `Title`, `Body`) VALUES (?,?,?,?)");
 
+					stmt.setString(1, account.getId());
+					stmt.setString(2, to);
+					stmt.setString(3, title);
+					stmt.setString(4, body);
+
+					stmt.executeUpdate();
+
+					JOptionPane.showMessageDialog(frame, "Email was sent successfully");
+					
+					frame.setVisible(false);
+					MailBox f = new MailBox();
+					f.main(null);
 
 				} catch (SQLException e1) {
 					System.err.println("[!]Problem with requested statement");
@@ -136,53 +141,41 @@ public class SendEmail {
 			}
 		});
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(171)
-							.addComponent(lblSendEmail))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(lblBody, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(lblTitle, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(lblTo, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE))
-							.addGap(45)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(body_txt)
-								.addComponent(title_txt, GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
-								.addComponent(to_txt)
-								.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-									.addComponent(btnSent, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(btnGoback)))))
-					.addContainerGap(65, Short.MAX_VALUE))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblSendEmail)
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTo)
-						.addComponent(to_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTitle)
-						.addComponent(title_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(35)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblBody)
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup().addGap(171).addComponent(lblSendEmail))
+								.addGroup(groupLayout.createSequentialGroup().addContainerGap()
+										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+												.addComponent(lblBody, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
+														GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+												.addComponent(lblTitle, Alignment.LEADING, GroupLayout.DEFAULT_SIZE,
+														GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+												.addComponent(lblTo, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 66,
+														Short.MAX_VALUE))
+										.addGap(45)
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+												.addComponent(body_txt)
+												.addComponent(title_txt, GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
+												.addComponent(to_txt).addGroup(Alignment.TRAILING,
+														groupLayout.createSequentialGroup()
+																.addComponent(btnSent, GroupLayout.PREFERRED_SIZE, 78,
+																		GroupLayout.PREFERRED_SIZE)
+																.addGap(18).addComponent(btnGoback)))))
+						.addContainerGap(65, Short.MAX_VALUE)));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+				.createSequentialGroup().addContainerGap().addComponent(lblSendEmail).addGap(18)
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lblTo).addComponent(to_txt,
+						GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+				.addGap(18)
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lblTitle).addComponent(
+						title_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+				.addGap(35)
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lblBody)
 						.addComponent(body_txt, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE))
-					.addGap(68)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnGoback)
+				.addGap(68).addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(btnGoback)
 						.addComponent(btnSent))
-					.addGap(74))
-		);
+				.addGap(74)));
 		frame.getContentPane().setLayout(groupLayout);
 	}
 }

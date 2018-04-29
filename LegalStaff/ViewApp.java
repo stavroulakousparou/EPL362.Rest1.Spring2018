@@ -1,4 +1,4 @@
-package legalStaff;
+package LegalStaff;
 
 import java.awt.EventQueue;
 

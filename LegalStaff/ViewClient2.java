@@ -1,4 +1,4 @@
-package legalStaff;
+package LegalStaff;
 
 /**
  * This class is responsible for letting the user view and edit clients.
@@ -11,20 +11,17 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
-
-import gui.*;
-
+import GUI.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URI;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -36,7 +33,6 @@ public class ViewClient2 {
 	private JTextField surname_txt;
 	private JTextField id_txt;
 	private JTextField unwillingness_txt;
-	private JTextField comments_txt;
 	private JTextField clientID_txt;
 
 	/**
@@ -93,11 +89,6 @@ public class ViewClient2 {
 		unwillingness_txt = new JTextField();
 		unwillingness_txt.setColumns(10);
 
-		JLabel label_5 = new JLabel("Comments");
-
-		comments_txt = new JTextField();
-		comments_txt.setColumns(10);
-
 		JButton button = new JButton("Back");
 		button.addMouseListener(new MouseAdapter() {
 			@Override
@@ -112,7 +103,7 @@ public class ViewClient2 {
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.setVisible(false);
-				Login f = new Login();
+				loginPage f = new loginPage();
 				f.main(null);
 			}
 		});
@@ -122,7 +113,7 @@ public class ViewClient2 {
 		clientID_txt = new JTextField();
 		clientID_txt.setColumns(10);
 
-		JButton btnRefresh = new JButton("Refresh");
+		JButton btnRefresh = new JButton("Search");
 		btnRefresh.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -140,16 +131,15 @@ public class ViewClient2 {
 
 				try {
 					stmt = conn.createStatement();
-					ResultSet rs = stmt.executeQuery("SELECT * FROM `Client` WHERE ID=" + clientID_txt.getText());
+					ResultSet rs = stmt.executeQuery("SELECT * FROM `Client` WHERE ClientID=" + clientID_txt.getText());
 
 					if (rs.next()) {
 						do {
-							name_txt.setText(rs.getString("Name"));
-							surname_txt.setText(rs.getString("Surname"));
-							id_txt.setText(rs.getString("ID"));
+							name_txt.setText(rs.getString("FirstName"));
+							surname_txt.setText(rs.getString("LastName"));
+							id_txt.setText(rs.getString("ClientID"));
 							id_txt.setEditable(false);
-							unwillingness_txt.setText(rs.getString("Unwillingness"));
-							comments_txt.setText(rs.getString("Comments"));
+							unwillingness_txt.setText(rs.getString("RiskPercentage"));
 						} while (rs.next());
 					} else
 						JOptionPane.showMessageDialog(frame, "This client does not exist!");
@@ -169,42 +159,13 @@ public class ViewClient2 {
 				String surname = surname_txt.getText();
 				String id = id_txt.getText();
 				String unwillingness = unwillingness_txt.getText();
-				String comments = comments_txt.getText();
+				
+				JOptionPane.showMessageDialog(frame, "Client Edited Successfully");
 
-				// Establishing connection
-				ConnectDB connection = new ConnectDB();
-				Connection conn = connection.getDBConnection();
-
-				// If connection Failed
-				if (conn == null) {
-					System.out.println("Connection Failed");
-				}
-
-				Statement stmt;
-				Account account = Account.getUniqueInstance();
-
-				try {
-					stmt = conn.createStatement();
-					int rs = stmt.executeUpdate(
-							"UPDATE `Client` SET `Name`='" + name + "', `Surname`='" + surname + "', `Unwillingness`='"
-									+ unwillingness + "', `Comments`='" + comments + "' WHERE `ID`='" + id + "'");
-					stmt.executeUpdate("INSERT INTO `Transaction`(`ClientID`, `Date`, `Time`, `Description`) VALUES ('"
-							+ id + "', " + "CURDATE()," + "CURTIME()," + "'`Client` record changed to: `Name`=" + name
-							+ ", `Surname`=" + surname + ", `Unwillingness`=" + unwillingness + ", `Comments`="
-							+ comments + "');");
-
-					if (rs == 1) {
-						JOptionPane.showMessageDialog(frame, "Client Edited Successfully");
-					} else {
-						JOptionPane.showMessageDialog(frame, "Wrong Insert");
-					}
-
-				} catch (SQLException e1) {
-					System.err.println("[!]Problem with requested statement");
-					e1.printStackTrace();
-				}
 			}
 		});
+		
+		JLabel label_5 = new JLabel("Risk Percentage");
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -216,7 +177,7 @@ public class ViewClient2 {
 							.addGap(18)
 							.addComponent(clientID_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnRefresh, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE))
+							.addComponent(btnRefresh, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(46)
 							.addComponent(btnSubmit, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE)
@@ -226,26 +187,20 @@ public class ViewClient2 {
 							.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addContainerGap()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(label_5)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(comments_txt, GroupLayout.PREFERRED_SIZE, 273, GroupLayout.PREFERRED_SIZE))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-											.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-												.addComponent(label_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addComponent(label_2, GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE))
-											.addPreferredGap(ComponentPlacement.RELATED))
-										.addGroup(groupLayout.createSequentialGroup()
-											.addComponent(label_4)
-											.addGap(1)))
 									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-										.addComponent(unwillingness_txt, Alignment.LEADING)
-										.addComponent(id_txt)
-										.addComponent(surname_txt, GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-										.addComponent(name_txt, GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))))
+										.addComponent(label_1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(label_2, GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE))
+									.addPreferredGap(ComponentPlacement.RELATED))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(label_4)
+									.addGap(1)))
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+								.addComponent(unwillingness_txt, Alignment.LEADING)
+								.addComponent(id_txt)
+								.addComponent(surname_txt, GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+								.addComponent(name_txt, GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
 							.addPreferredGap(ComponentPlacement.RELATED))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(172)
@@ -253,7 +208,11 @@ public class ViewClient2 {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(34)
 							.addComponent(label_3, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(73, Short.MAX_VALUE))
+					.addContainerGap(75, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(label_5, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(334, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -287,11 +246,9 @@ public class ViewClient2 {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(21)
 							.addComponent(unwillingness_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addGap(21)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(label_5)
-						.addComponent(comments_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(30)
+					.addGap(28)
+					.addComponent(label_5)
+					.addGap(33)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(button_1)
 						.addComponent(button)

@@ -1,4 +1,4 @@
-package legalStaff;
+package LegalStaff;
 
 /**
  * This class is responsible to let the user search strategies and see it's side effects.
@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import gui.*;
+import GUI.*;
 
 import javax.swing.JTextField;
 import java.awt.event.MouseAdapter;
@@ -120,7 +120,7 @@ public class SideEffects {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frame.setVisible(false);
-				Login f = new Login();
+				loginPage f = new loginPage();
 				f.main(null);
 			}
 		});

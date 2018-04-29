@@ -1,4 +1,4 @@
-package legalStaff;
+package LegalStaff;
 
 /**
  * This class is responsible to let the user view all the cases.
@@ -11,7 +11,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.table.DefaultTableModel;
 
-import gui.*;
+import GUI.*;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -72,7 +72,7 @@ public class ViewAllCases {
 		client_txt = new JTextField();
 		client_txt.setColumns(10);
 
-		JButton button = new JButton("Refresh");
+		JButton button = new JButton("Search");
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -98,7 +98,7 @@ public class ViewAllCases {
 
 				try {
 					stmt = conn.createStatement();
-					ResultSet rs = stmt.executeQuery("SELECT * FROM `Case` WHERE Client='" + clientID + "'");
+					ResultSet rs = stmt.executeQuery("SELECT * FROM `Case` WHERE ClientID='" + clientID + "'");
 
 					if (rs.next()) {
 						do {
@@ -131,7 +131,7 @@ public class ViewAllCases {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frame.setVisible(false);
-				Login f = new Login();
+				loginPage f = new loginPage();
 				f.main(null);
 			}
 		});
@@ -141,35 +141,47 @@ public class ViewAllCases {
 
 		JScrollPane scrollPane = new JScrollPane();
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
-				.createSequentialGroup()
-				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup().addGap(234).addComponent(lblViewAllCases))
-						.addGroup(groupLayout.createSequentialGroup().addGap(117).addComponent(lblEnterClientId)
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(client_txt, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
-								.addGap(18)
-								.addComponent(button, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
-								.addGap(88)
-								.addComponent(btnLogout, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)))
-				.addContainerGap(51, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup().addGroup(groupLayout
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup().addGap(34).addComponent(scrollPane,
-								GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE))
-						.addGroup(groupLayout.createSequentialGroup().addContainerGap(581, Short.MAX_VALUE)
-								.addComponent(btnBack, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)))
-						.addGap(42)));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
-				.createSequentialGroup().addContainerGap().addComponent(lblViewAllCases).addGap(17)
-				.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
-				.addPreferredGap(ComponentPlacement.RELATED, 90, Short.MAX_VALUE).addComponent(btnBack)
-				.addPreferredGap(ComponentPlacement.UNRELATED)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(button)
-						.addComponent(client_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblEnterClientId).addComponent(btnLogout))
-				.addGap(55)));
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(234)
+							.addComponent(lblViewAllCases))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(117)
+							.addComponent(lblEnterClientId)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(client_txt, GroupLayout.PREFERRED_SIZE, 126, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(button, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+							.addGap(88)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnBack, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnLogout, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE))))
+					.addContainerGap(69, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(34)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
+					.addGap(42))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblViewAllCases)
+					.addGap(17)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+					.addComponent(btnBack)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(button)
+						.addComponent(client_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblEnterClientId)
+						.addComponent(btnLogout))
+					.addGap(55))
+		);
 
 		table = new JTable();
 		scrollPane.setViewportView(table);

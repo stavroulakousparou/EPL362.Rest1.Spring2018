@@ -1,10 +1,11 @@
 package LegalStaff;
 
 /**
- * 
- * A legal staff edit a client.
- * 
+ * edit Client
+ * This class is responsible for editing the client
  * */
+
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;

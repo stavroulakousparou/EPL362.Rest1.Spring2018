@@ -1,10 +1,5 @@
 package LegalStaff;
 
-/**
- * A legal staff add a new case.
- * 
- * */
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;

@@ -1,10 +1,12 @@
 package LegalStaff;
 
 /**
- * 
- * The dash board of legal staff.
+ * LegalStaffViewpoint
+ * The dashboard of the legal staff
  * 
  * */
+
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;

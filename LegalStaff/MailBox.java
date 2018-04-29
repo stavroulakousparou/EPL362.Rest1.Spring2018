@@ -90,11 +90,11 @@ public class MailBox {
 				try {
 					stmt = conn.createStatement();
 					ResultSet rs = stmt
-							.executeQuery("SELECT * FROM `Email` WHERE (`To`=" + account.getId() + " AND IsRead=0)");
+							.executeQuery("SELECT * FROM `Email` WHERE (`To`='" + account.getId() + "' AND IsRead=0)");
 
 					if (rs.next()) {
 						do {
-							model.addRow(new Object[] { rs.getString("EmailID"), rs.getString("Title"),
+							model.addRow(new Object[] { rs.getString("EmailID"), rs.getString("Title"), rs.getString("Body"),
 									rs.getString("From"), rs.getString("To") });
 						} while (rs.next());
 					} else
@@ -132,11 +132,11 @@ public class MailBox {
 				try {
 					stmt = conn.createStatement();
 					ResultSet rs = stmt
-							.executeQuery("SELECT * FROM `Email` WHERE (`To`=" + account.getId() + " AND IsRead=1)");
+							.executeQuery("SELECT * FROM `Email` WHERE (`To`='" + account.getId() + "' AND IsRead=1)");
 
 					if (rs.next()) {
 						do {
-							model.addRow(new Object[] { rs.getString("EmailID"), rs.getString("Title"),
+							model.addRow(new Object[] { rs.getString("EmailID"), rs.getString("Title"), rs.getString("Body"),
 									rs.getString("From"), rs.getString("To") });
 						} while (rs.next());
 					} else
@@ -170,11 +170,11 @@ public class MailBox {
 
 				try {
 					stmt = conn.createStatement();
-					ResultSet rs = stmt.executeQuery("SELECT * FROM `Email` WHERE `From`=" + account.getId());
+					ResultSet rs = stmt.executeQuery("SELECT * FROM `Email` WHERE `From`='" + account.getId()+"'");
 
 					if (rs.next()) {
 						do {
-							model.addRow(new Object[] { rs.getString("EmailID"), rs.getString("Title"),
+							model.addRow(new Object[] { rs.getString("EmailID"), rs.getString("Title"), rs.getString("Body"),
 									rs.getString("From"), rs.getString("To") });
 						} while (rs.next());
 					} else
@@ -197,7 +197,7 @@ public class MailBox {
 			}
 		});
 
-		JButton btnNewButton_2 = new JButton("GoBack");
+		JButton btnNewButton_2 = new JButton("Back");
 		btnNewButton_2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {

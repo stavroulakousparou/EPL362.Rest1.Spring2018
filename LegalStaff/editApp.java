@@ -1,9 +1,11 @@
 package LegalStaff;
 
 /**
- * A legal staff edit a consultation.
+ * editApp
+ * This is class is responsible for editing the consultation
  * 
  * */
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -16,9 +18,15 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.ws.rs.core.UriBuilder;
+
+import GUI.Account;
 import GUI.loginPage;
+import Receptionist.CompletedConsultation;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.URI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,6 +46,8 @@ public class editApp {
 	private JTextField appID_txt;
 	private JTextField time_txt;
 	private static Connection conn = null;
+	private JTextField textField_comments;
+
 
 	/**
 	 * Launch the application.
@@ -67,7 +77,7 @@ public class editApp {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 406);
+		frame.setBounds(100, 100, 450, 481);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JLabel lblEditAppointment = new JLabel("Edit Consultation");
@@ -134,7 +144,12 @@ public class editApp {
 
 		appID_txt = new JTextField();
 		appID_txt.setColumns(10);
-
+		
+		JLabel lblNewLabel = new JLabel("Comments");
+		
+		textField_comments = new JTextField();
+		textField_comments.setColumns(10);
+		
 		JButton btnRefresh = new JButton("Search");
 		btnRefresh.addMouseListener(new MouseAdapter() {
 			@Override
@@ -188,14 +203,73 @@ public class editApp {
 					System.err.println("[!]Problem with requested statement");
 					e1.printStackTrace();
 				}
-
+				
+				
+				Account account=Account.getUniqueInstance();
+				String username = account.getId();
+				
+				if (username.equals(lawyer_txt.getText())) {
+					textField_comments.setEditable(false);	
+					
+				}	
+				else {
+					textField_comments.setEditable(true);
+									}
 			}
+			
 		});
 
 		time_txt = new JTextField();
 		time_txt.setColumns(10);
 		
 		JButton button = new JButton("Submit");
+		
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				String appID = appID_txt.getText();
+
+				Connection conn;
+
+				// request
+				ConnectDB connection = new ConnectDB();
+				conn = connection.getDBConnection();
+
+				// If connection Failed
+				if (conn == null) {
+					System.out.println("Connection Failed");
+				}
+
+				String legalop=legalopinion_txt.getText();
+				String recom=recomandation_txt.getText();
+				String com=textField_comments.getText();
+				com=com+",";
+				String sql="UPDATE `Consultation` SET `LegalOpinion`='"+legalop
+						+"',`Recommendation`='"+recom+"', `Comments`='"+com
+						+ "' WHERE ConsultationID='" + appID + "'";
+				PreparedStatement statement = null;
+				ResultSet rs;
+				
+
+				try {
+					statement = conn.prepareStatement(sql);
+					statement.executeUpdate();
+	
+				} catch (SQLException e1) {
+					System.err.println("[!]Problem with requested statement");
+					e1.printStackTrace();
+				}
+
+				frame.setVisible(false);
+				LegalStaffViewpoint comp = new LegalStaffViewpoint();
+				comp.main(null);
+			}
+		});
+		
+		
+		
+		
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -226,7 +300,7 @@ public class editApp {
 											.addComponent(label_7, GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
 											.addPreferredGap(ComponentPlacement.RELATED)))
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 											.addGroup(groupLayout.createSequentialGroup()
 												.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 													.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
@@ -242,84 +316,88 @@ public class editApp {
 													.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 														.addComponent(btnRefresh, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
 														.addComponent(appID_txt, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE))))
-											.addGroup(groupLayout.createSequentialGroup()
-												.addComponent(legalopinion_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)))
-										.addComponent(recomandation_txt, GroupLayout.PREFERRED_SIZE, 238, GroupLayout.PREFERRED_SIZE)))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(149)
-									.addComponent(button, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
-									.addComponent(button_2, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)))
+											.addComponent(textField_comments, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+										.addComponent(recomandation_txt, GroupLayout.PREFERRED_SIZE, 238, GroupLayout.PREFERRED_SIZE)
+										.addComponent(legalopinion_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(lblNewLabel))
 							.addGap(18)))
 					.addGap(12))
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(button, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(button_2, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(160, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+					.addContainerGap()
+					.addComponent(lblEditAppointment)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(label, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(date_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblEditAppointment)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGap(11)
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(label, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-								.addComponent(date_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+								.addComponent(time_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(21)
+									.addComponent(label_2))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(18)
+									.addComponent(case_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(14)
+									.addComponent(label_3))
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGap(11)
-									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-										.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-										.addComponent(time_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addGroup(groupLayout.createSequentialGroup()
-											.addGap(21)
-											.addComponent(label_2))
-										.addGroup(groupLayout.createSequentialGroup()
-											.addGap(18)
-											.addComponent(case_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addGroup(groupLayout.createSequentialGroup()
-											.addGap(14)
-											.addComponent(label_3))
-										.addGroup(groupLayout.createSequentialGroup()
-											.addGap(11)
-											.addComponent(client_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-									.addGap(14)
-									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-										.addComponent(label_4)
-										.addComponent(lawyer_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-									.addGap(14)
-									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-										.addComponent(label_5)
-										.addComponent(branch_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(69)
-									.addComponent(lblEnterAppointmentid)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(appID_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(btnRefresh)
-									.addGap(9)))
-							.addGap(9)
+									.addComponent(client_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addGap(14)
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(label_6)
-								.addComponent(recomandation_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(18)
+								.addComponent(label_4)
+								.addComponent(lawyer_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(14)
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(label_7)
-								.addComponent(legalopinion_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(label_5)
+								.addComponent(branch_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(315)
-							.addComponent(button_1)))
-					.addPreferredGap(ComponentPlacement.RELATED)
+							.addGap(69)
+							.addComponent(lblEnterAppointmentid)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(appID_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(btnRefresh)
+							.addGap(9)))
+					.addGap(9)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(label_6)
+						.addComponent(recomandation_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(label_7)
+						.addComponent(legalopinion_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(3)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNewLabel)
+						.addComponent(textField_comments, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(54)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(button)
 						.addComponent(button_2)
-						.addComponent(button))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addComponent(button_1))
+					.addContainerGap())
 		);
 		frame.getContentPane().setLayout(groupLayout);
 	}
+
+
 }

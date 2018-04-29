@@ -1,9 +1,13 @@
 package LegalStaff;
 
 /**
- * Checks if the client do money laundering.
+ * IsClientML
+ * 
+ * This class is responsible for checking if the client is involved in money laundering
  * 
  * */
+
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -16,11 +20,24 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriBuilder;
+
+import org.glassfish.jersey.client.ClientConfig;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import GUI.loginPage;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.URI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -165,6 +182,8 @@ public class IsClientML {
 		frame.getContentPane().setLayout(groupLayout);
 	}
 
-	
+	private static URI getBaseURI() {
+		return UriBuilder.fromUri("http://localhost/LawOSREST/").build();
+	}
 
 }
