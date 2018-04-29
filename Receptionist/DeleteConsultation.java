@@ -1,26 +1,29 @@
 package Receptionist;
 
-import java.awt.EventQueue;
+/**
+ * This class implements the Delete Consultation page
+ * The receptionist inserts a consultation ID and this 
+ * consultation is deleted
+ */
 
+import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
-
 import GUI.loginPage;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class DeleteConsultation {
 
@@ -97,7 +100,7 @@ public class DeleteConsultation {
 			}
 		});
 		
-		JButton btnGoback = new JButton("GoBack");
+		JButton btnGoback = new JButton("Back");
 		btnGoback.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -107,7 +110,11 @@ public class DeleteConsultation {
 			}
 		});
 		
-		JButton btnLogout = new JButton("LogOut");
+		JButton btnLogout = new JButton("Logout");
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnLogout.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {

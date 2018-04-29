@@ -1,7 +1,12 @@
 package Receptionist;
 
-import java.awt.EventQueue;
+/**
+ * This class implements the new consultation form
+ * The receptionist inserts a new consultation that is
+ * added to the database
+ */
 
+import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -12,7 +17,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import GUI.loginPage;
-
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

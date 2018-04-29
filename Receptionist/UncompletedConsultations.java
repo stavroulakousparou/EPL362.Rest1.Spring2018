@@ -1,18 +1,19 @@
 package Receptionist;
 
-import java.awt.EventQueue;
+/**
+ * This class implements 
+ * The receptionist can see the uncompleted consultations and update a consultation
+ * to completed or failed
+ */
 
+import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.Font;
-import javax.swing.JTextPane;
-import javax.swing.JTextArea;
-import javax.swing.JScrollBar;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.ListSelectionModel;
 import GUI.loginPage;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
@@ -21,8 +22,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -70,8 +69,8 @@ public class UncompletedConsultations {
 		JLabel lblUncompletedConsultations = new JLabel("Uncompleted Consultations");
 		lblUncompletedConsultations.setFont(new Font("Arial", Font.BOLD, 16));
 
-		JButton button = new JButton("GoBack");
-		button.addMouseListener(new MouseAdapter() {
+		JButton btnGoBack = new JButton("Go back");
+		btnGoBack.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frame.setVisible(false);
@@ -80,8 +79,8 @@ public class UncompletedConsultations {
 			}
 		});
 
-		JButton button_1 = new JButton("LogOut");
-		button_1.addMouseListener(new MouseAdapter() {
+		JButton btnLogout = new JButton("Logout");
+		btnLogout.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frame.setVisible(false);
@@ -208,9 +207,9 @@ public class UncompletedConsultations {
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(button_update_fail, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED, 216, Short.MAX_VALUE)
-									.addComponent(button, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+									.addComponent(btnGoBack, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+									.addComponent(btnLogout, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
 									.addGap(49))
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
@@ -243,8 +242,8 @@ public class UncompletedConsultations {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(20)
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(button_1)
-								.addComponent(button)))
+								.addComponent(btnLogout)
+								.addComponent(btnGoBack)))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(12)
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
@@ -277,13 +276,14 @@ public class UncompletedConsultations {
 		model.setRowCount(0);
 
 		ConnectDB connection = new ConnectDB();
+		//establish connection
 		conn = connection.getDBConnection();
 
 		String sql = "Select * FROM `Consultation` WHERE `Completed`=0";
 		PreparedStatement statement = null;
 		ResultSet rs;
 		try {
-
+			
 			// create and execute statement
 			statement = conn.prepareStatement(sql);
 			rs = statement.executeQuery();

@@ -1,45 +1,29 @@
 package Receptionist;
 
-import java.awt.EventQueue;
+/**
+ * This class implements the Failed Consultations page
+ * The receptionist can view the failed consultations where
+ * the client didn't attend the appointment
+ */
 
+import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriBuilder;
-
-import org.glassfish.jersey.client.ClientConfig;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import GUI.loginPage;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URI;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import java.sql.Connection;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class FailedConsultations {
 
@@ -76,7 +60,7 @@ public class FailedConsultations {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 824, 452);
+		frame.setBounds(100, 100, 824, 310);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JLabel lblFaildAppointments = new JLabel("Failed Consultations");
@@ -85,8 +69,8 @@ public class FailedConsultations {
 		JScrollPane scrollPane = new JScrollPane();
 		
 		
-		JButton button_1 = new JButton("GoBack");
-		button_1.addMouseListener(new MouseAdapter() {
+		JButton btnBack = new JButton("Back");
+		btnBack.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				frame.setVisible(false);
@@ -95,8 +79,8 @@ public class FailedConsultations {
 			}
 		});
 		
-		JButton button_2 = new JButton("LogOut");
-		button_2.addMouseListener(new MouseAdapter() {
+		JButton btnLogout = new JButton("Logout");
+		btnLogout.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frame.setVisible(false);
@@ -108,18 +92,18 @@ public class FailedConsultations {
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(45)
-							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 695, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(330)
-							.addComponent(lblFaildAppointments))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(262)
-							.addComponent(button_1, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-							.addGap(44)
-							.addComponent(button_2, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)))
+					.addGap(330)
+					.addComponent(lblFaildAppointments)
+					.addContainerGap(84, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addContainerGap(554, Short.MAX_VALUE)
+					.addComponent(btnBack, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(btnLogout, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+					.addGap(76))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(45)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 695, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(84, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
@@ -128,11 +112,11 @@ public class FailedConsultations {
 					.addContainerGap()
 					.addComponent(lblFaildAppointments)
 					.addGap(18)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
-					.addGap(83)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 189, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(button_1)
-						.addComponent(button_2))
+						.addComponent(btnLogout)
+						.addComponent(btnBack))
 					.addContainerGap(151, Short.MAX_VALUE))
 		);
 		

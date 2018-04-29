@@ -1,39 +1,26 @@
 package Receptionist;
 
+/**
+ * This class implements the Completed Consultations page
+ * The receptionist can view the completed consultations
+ */
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JTextArea;
+
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+
 import javax.swing.JScrollPane;
 
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriBuilder;
-
-import org.glassfish.jersey.client.ClientConfig;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import GUI.loginPage;
 
 import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.AbstractListModel;
-import javax.swing.JTextPane;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -42,10 +29,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.UIManager;
@@ -89,7 +72,7 @@ public class CompletedConsultation {
 	
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 837, 423);
+		frame.setBounds(100, 100, 837, 284);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JLabel label = new JLabel("Completed Consultations");
@@ -138,7 +121,7 @@ public class CompletedConsultation {
 		
 		
 		//GOBACK BUTTON
-		JButton btnNewButton_1 = new JButton("GoBack");
+		JButton btnNewButton_1 = new JButton("Back");
 		btnNewButton_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -149,7 +132,7 @@ public class CompletedConsultation {
 		});
 		
 		//LOGOUT BUTTON
-		JButton btnLogout_1 = new JButton("LogOut");
+		JButton btnLogout_1 = new JButton("Logout");
 		btnLogout_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -165,7 +148,7 @@ public class CompletedConsultation {
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(308)
 					.addComponent(label)
-					.addContainerGap(319, Short.MAX_VALUE))
+					.addContainerGap(335, Short.MAX_VALUE))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(57)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 695, GroupLayout.PREFERRED_SIZE)
@@ -192,15 +175,12 @@ public class CompletedConsultation {
 							.addGap(41)
 							.addComponent(table, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE))))
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(87)
-					//.addComponent(btnNewButton)
-					.addGap(171)
+					.addGap(541)
 					.addComponent(btnNewButton_1)
-					.addGap(194)
+					.addGap(18)
 					.addComponent(btnLogout_1)
-					.addContainerGap(1038, Short.MAX_VALUE))
+					.addContainerGap(969, Short.MAX_VALUE))
 		);
-	
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
@@ -217,12 +197,11 @@ public class CompletedConsultation {
 							.addGap(11)
 							.addComponent(list, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE))
 						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE))
-					.addGap(124)
+					.addGap(13)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						//.addComponent(btnNewButton)
-						.addComponent(btnNewButton_1)
-						.addComponent(btnLogout_1))
-					.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(btnLogout_1)
+						.addComponent(btnNewButton_1))
+					.addGap(117)
 					.addComponent(btnLogout)
 					.addGap(20))
 		);
