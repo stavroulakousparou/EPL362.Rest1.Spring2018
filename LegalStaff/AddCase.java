@@ -13,18 +13,6 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Form;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriBuilder;
-
-import org.glassfish.jersey.client.ClientConfig;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import GUI.ConnectDB;
 import GUI.loginPage;
@@ -32,7 +20,6 @@ import GUI.loginPage;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -167,85 +154,6 @@ public class AddCase {
 					e1.printStackTrace();
 				}
 				
-				
-				
-				
-				
-				/*
-				
-				//request 1
-				ClientConfig config = new ClientConfig();
-				Client client = ClientBuilder.newClient(config);
-				WebTarget target = client.target(getBaseURI());
-				Form form = new Form();
-				form.param("Strategy", strategy);
-				form.param("Details", details);
-				form.param("Flagged_ml", ml);
-				form.param("ClientID", clientID);
-				form.param("LawyerID", lawyer);
-				
-				String res2 = target.path("rest").path("lawos").path("ls").path("add").path("Case").request()
-						.accept(MediaType.APPLICATION_JSON)
-						.post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), String.class);
-				
-				if (res2.equals("1")){
-					JOptionPane.showMessageDialog(frame, "Case Inserted Successfully");
-					//request 2
-					config = new ClientConfig();
-					client = ClientBuilder.newClient(config);
-					target = client.target(getBaseURI());
-					form = new Form();
-					form.param("ClientID", clientID);
-					
-					
-					res2 = target.path("rest").path("lawos").path("ls").path("view").path("client").path("isml").request()
-							.accept(MediaType.APPLICATION_JSON)
-							.post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), String.class);
-					
-					JSONObject json = null;
-					try {
-						json = new JSONObject(res2);
-						JSONArray arr = json.getJSONArray("results_array");
-						if(arr.getJSONObject(0).getString("COUNT(DISTINCT Flagged_ml)").equals("1")){
-							JOptionPane.showMessageDialog(frame, "This client involved in money laudring!","Dialog",JOptionPane.WARNING_MESSAGE);
-						}
-						
-					} catch (JSONException e2) {
-						// TODO Auto-generated catch block
-						e2.printStackTrace();
-					}
-					
-					//request 3
-					config = new ClientConfig();
-					client = ClientBuilder.newClient(config);
-					target = client.target(getBaseURI());
-					form = new Form();
-					form.param("ClientID", clientID);
-					
-					
-					res2 = target.path("rest").path("lawos").path("ls").path("view").path("client").path("unw").request()
-							.accept(MediaType.APPLICATION_JSON)
-							.post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), String.class);
-					
-					json = null;
-					try {
-						json = new JSONObject(res2);
-						JSONArray arr = json.getJSONArray("results_array");
-						if(!arr.getJSONObject(0).getString("Unwillingness").equals("null") && !arr.getJSONObject(0).getString("Unwillingness").equals("")){
-							JOptionPane.showMessageDialog(frame, "Unwillingness:\n" + arr.getJSONObject(0).getString("Unwillingness"),"Dialog",JOptionPane.WARNING_MESSAGE);
-						}
-						
-					} catch (JSONException e2) {
-						// TODO Auto-generated catch block
-						e2.printStackTrace();
-					}
-					
-				}
-				else{
-					JOptionPane.showMessageDialog(frame, "Wrong Insert");
-				}
-				
-				*/
 			}
 		});
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
@@ -314,8 +222,6 @@ public class AddCase {
 		);
 		frame.getContentPane().setLayout(groupLayout);
 	}
-	private static URI getBaseURI() {
-		return UriBuilder.fromUri("http://localhost/LawOSREST/").build();
-	}
+	
 
 }
