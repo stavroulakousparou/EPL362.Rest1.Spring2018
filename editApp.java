@@ -33,6 +33,9 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URI;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class editApp {
 
@@ -46,6 +49,7 @@ public class editApp {
 	private JTextField legalopinion_txt;
 	private JTextField appID_txt;
 	private JTextField time_txt;
+	private static Connection conn = null;
 
 	/**
 	 * Launch the application.
@@ -124,26 +128,26 @@ public class editApp {
 			public void mouseClicked(MouseEvent e) {
 				String recomandation = recomandation_txt.getText();
 				String legalopinion = legalopinion_txt.getText();
+			
+				
+				ConnectDB connection = new ConnectDB();
+				conn = connection.getDBConnection();
 
-				//request
-				ClientConfig config = new ClientConfig();
-				Client client = ClientBuilder.newClient(config);
-				WebTarget target = client.target(getBaseURI());
-				Form form = new Form();
-				form.param("ConsultationID", appID_txt.getText());
-				form.param("Recommendation", recomandation);
-				form.param("LegalOpinion", legalopinion);
-				
-				String res2 = target.path("rest").path("lawos").path("ls").path("edit").path("app").request()
-						.accept(MediaType.APPLICATION_JSON)
-						.post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), String.class);
-				
-				if (res2.equals("1")){
-					JOptionPane.showMessageDialog(frame, "Consultation Edited Successfully");
+				// If connection Failed
+				if (conn == null) {
+					System.out.println("Connection Failed");
 				}
-				else{
-					JOptionPane.showMessageDialog(frame, "Wrong Insert");
-				}
+				
+				PreparedStatement stmt= null;
+				
+			try {
+				int	response = stmt.executeUpdate("UPDATE `Consultation` SET Completed=1, Recommendation='" + recomandation
+							+ "', LegalOpinion='" + legalopinion + "' WHERE ConsultationID=" + appID_txt.getText());
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 			}
 		});
 		
@@ -184,47 +188,18 @@ public class editApp {
 					JOptionPane.showMessageDialog(frame, "Enter an consultation id.");
 					return;
 				}
-
+				Connection con;
 				
 				//request
-				ClientConfig config = new ClientConfig();
-				Client client = ClientBuilder.newClient(config);
-				WebTarget target = client.target(getBaseURI());
-				Form form = new Form();
-				form.param("ConsultationID", appID);
-				
-				
-				String res2 = target.path("rest").path("lawos").path("ls").path("view").path("app").request()
-						.accept(MediaType.APPLICATION_JSON)
-						.post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), String.class);
-				
-				JSONObject json = null;
-				try {
-					json = new JSONObject(res2);
-					if(json.get("size").equals("0")){
-						JOptionPane.showMessageDialog(frame, "Wrong appointment ID.");
-					}
-					else{
-						JSONArray arr = json.getJSONArray("results_array");
-						lawyer_txt.setText(arr.getJSONObject(0).getString("LegalStaffID"));
-						client_txt.setText(arr.getJSONObject(0).getString("ClientID"));
-						branch_txt.setText(arr.getJSONObject(0).getString("BranchID"));
-						case_txt.setText(arr.getJSONObject(0).getString("CaseID"));
-						date_txt.setText(arr.getJSONObject(0).getString("Date"));
-						time_txt.setText(arr.getJSONObject(0).getString("Time"));
-						legalopinion_txt.setText(arr.getJSONObject(0).getString("LegalOpinion"));
-						recomandation_txt.setText(arr.getJSONObject(0).getString("Recommendation"));
-						lawyer_txt.setEditable(false);
-						client_txt.setEditable(false);
-						branch_txt.setEditable(false);
-						case_txt.setEditable(false);
-						date_txt.setEditable(false);
-						time_txt.setEditable(false);
-					}
-				} catch (JSONException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
+				ConnectDB connection = new ConnectDB();
+				conn = connection.getDBConnection();
+
+				// If connection Failed
+				if (conn == null) {
+					System.out.println("Connection Failed");
 				}
+				
+		
 			}
 		});
 		

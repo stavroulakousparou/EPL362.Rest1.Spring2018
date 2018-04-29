@@ -31,6 +31,11 @@ import GUI.loginPage;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URI;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class EditCase {
 
@@ -106,28 +111,35 @@ public class EditCase {
 				String lawyer = lawyer_txt.getText();
 				String caseID = case_txt.getText();
 				
+				Connection conn;
+				ConnectDB connection = new ConnectDB();
+				conn = connection.getDBConnection();
 
-				//request
-				ClientConfig config = new ClientConfig();
-				Client client = ClientBuilder.newClient(config);
-				WebTarget target = client.target(getBaseURI());
-				Form form = new Form();
-				form.param("CaseID", caseID);
-				form.param("Strategy", strategy);
-				form.param("Details", details);
-				form.param("Flagged_ml", ml);
-				
-				
-				String res2 = target.path("rest").path("lawos").path("ls").path("edit").path("case").request()
-						.accept(MediaType.APPLICATION_JSON)
-						.post(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED), String.class);
-				
-				if (res2.equals("1")){
-					JOptionPane.showMessageDialog(frame, "Case Edited Successfully");
+				// If connection Failed
+				if (conn == null) {
+					System.out.println("Connection Failed");
 				}
-				else{
-					JOptionPane.showMessageDialog(frame, "Wrong Insert");
+				
+				String s="UPDATE `Case` SET Strategy='" + strategy + "', Details='" + details
+						+ "', Flagged_ml=" + ml + " WHERE CaseID=" + caseID;
+PreparedStatement statement = null;
+				
+				
+				try {
+					 statement = conn.prepareStatement(s);	 
+                     int res2 = statement.executeUpdate();
+
+                     if (res2 == 1){
+     					JOptionPane.showMessageDialog(frame, "Case Edited Successfully");
+     				}
+     				else{
+     					JOptionPane.showMessageDialog(frame, "Wrong Insert");
+     				}
+                     
+				} catch (SQLException e1) {
+					e1.printStackTrace();
 				}
+
 			}
 		});
 		
@@ -166,6 +178,47 @@ public class EditCase {
 		btnRefresh.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				
+				Connection conn = null;
+				ConnectDB connection = new ConnectDB();
+				conn = connection.getDBConnection();
+
+				// If connection Failed
+				if (conn == null) {
+					System.out.println("Connection Failed");
+				}
+				Statement statement = null;
+
+				
+				
+				try {
+					 statement = conn.createStatement();	 
+					 ResultSet rs = statement.executeQuery("SELECT * FROM `Case` WHERE CaseID=" + case_txt.getText());
+
+					 if(rs.next()){
+							
+							do {
+								details_txt.setText(rs.getString("Details"));
+								strategy_txt.setText(rs.getString("Strategy"));
+								case_txt.setText(rs.getString("CaseID"));
+								case_txt.setEditable(false);
+								ml_txt.setText(rs.getString("Flagged_ml"));
+								ml_txt.setEditable(false);
+								client_txt.setText(rs.getString("ClientID"));
+								client_txt.setEditable(false);
+								lawyer_txt.setText(rs.getString("LawyerID"));
+								lawyer_txt.setEditable(false);
+							}while(rs.next());
+						}
+						else{
+							JOptionPane.showMessageDialog(frame, "Wrong Case.");
+							return;
+						}
+                     
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				
 				ClientConfig config = new ClientConfig();
 				Client client = ClientBuilder.newClient(config);
 				WebTarget target = client.target(getBaseURI());
@@ -180,23 +233,7 @@ public class EditCase {
 
 				try {
 					json = new JSONObject(res2);
-					if(json.get("size").equals("0")){
-						JOptionPane.showMessageDialog(frame, "Wrong Case.");
-						return;
-					}
-					else{
-						JSONArray arr = json.getJSONArray("results_array");
-						details_txt.setText(arr.getJSONObject(0).getString("Details"));
-						strategy_txt.setText(arr.getJSONObject(0).getString("Strategy"));
-						case_txt.setText(arr.getJSONObject(0).getString("CaseID"));
-						case_txt.setEditable(false);
-						ml_txt.setText(arr.getJSONObject(0).getString("Flagged_ml"));
-						ml_txt.setEditable(false);
-						client_txt.setText(arr.getJSONObject(0).getString("ClientID"));
-						client_txt.setEditable(false);
-						lawyer_txt.setText(arr.getJSONObject(0).getString("LawyerID"));
-						lawyer_txt.setEditable(false);
-					}
+					
 
 				} catch (JSONException e2) {
 					// TODO Auto-generated catch block
