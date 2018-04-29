@@ -21,7 +21,6 @@ import GUI.loginPage;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -166,8 +165,6 @@ public class IsClientML {
 		frame.getContentPane().setLayout(groupLayout);
 	}
 
-	private static URI getBaseURI() {
-		return UriBuilder.fromUri("http://localhost/LawOSREST/").build();
-	}
+	
 
 }
