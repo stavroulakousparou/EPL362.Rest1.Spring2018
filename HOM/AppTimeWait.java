@@ -1,5 +1,11 @@
 package HOM;
 
+/**
+ * Head Office Management.
+ * Summary of the times that clients have had to wait for appointments.
+ * 
+ * */
+
 import java.awt.EventQueue;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,11 +32,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 
-/**
- * Head Office Management.
- * Summary of the times that clients have had to wait for appointments.
- * 
- * */
 public class AppTimeWait {
 
 	private JFrame frame;

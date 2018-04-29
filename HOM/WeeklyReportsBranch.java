@@ -1,5 +1,11 @@
 package HOM;
 
+/**
+ *  Head Office Management.
+ *  Weekly Report for each Branch.
+ *  
+ * */
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -27,11 +33,6 @@ import java.sql.SQLException;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 
-/**
- *  Head Office Management.
- *  Weekly Report for each Branch.
- *  
- * */
 public class WeeklyReportsBranch {
 
 	private JFrame frame;
@@ -83,7 +84,7 @@ public class WeeklyReportsBranch {
 		branch_txt = new JTextField();
 		branch_txt.setColumns(10);
 
-		JButton button = new JButton("Refresh");
+		JButton button = new JButton("Search");
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -107,7 +108,7 @@ public class WeeklyReportsBranch {
 
 				boolean flag = false;
 
-				String sqlReportBranch = "SELECT Date, COUNT(DISTINCT `ClientID`) FROM `Consultation` WHERE `Completed`=1 AND `BranchID`='" + branchID
+				String sqlReportBranch = "SELECT DAYOFWEEK(`Date`), COUNT(DISTINCT `ClientID`) FROM `Consultation` WHERE `Completed`=1 AND `BranchID`='" + branchID
 						+ "'";
 				PreparedStatement statem = null;
 
@@ -116,16 +117,37 @@ public class WeeklyReportsBranch {
 					ResultSet res = statem.executeQuery();
 
 					while (res.next()) {
-						weekly = res.getString("Date");
+						weekly = res.getString(1);
 						numOfClients = res.getString("COUNT(DISTINCT `ClientID`)");
 						
 						if (branchID.length() != 0 && numOfClients.length() != 0 && weekly != null) {
 							flag = true;
 
-							String[] DateClient = weekly.split("-");
-							day = DateClient[2];
+							switch (weekly) {
+							case "1": model.addRow(new Object[] { "Sunday", numOfClients });
+									  break;
+							
+							case "2": model.addRow(new Object[] { "Monday", numOfClients });
+							          break;
+							 
+							case "3": model.addRow(new Object[] { "Tuesday", numOfClients });
+							          break;
+							          
+							case "4": model.addRow(new Object[] { "Wednesday", numOfClients });
+							  break;
+					
+							case "5": model.addRow(new Object[] { "Tuesday", numOfClients });
+					          break;
+					 
+							case "6": model.addRow(new Object[] { "Friday", numOfClients });
+					          break;
+					          
+							case "7": model.addRow(new Object[] { "Saturday", numOfClients });
+					          break;
+									  
+							}
 
-							model.addRow(new Object[] { day, numOfClients });
+							
 						}
 					}
 
@@ -141,7 +163,7 @@ public class WeeklyReportsBranch {
 			}
 		});
 
-		JButton button_1 = new JButton("GoBack");
+		JButton button_1 = new JButton("Back");
 		button_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -151,7 +173,7 @@ public class WeeklyReportsBranch {
 			}
 		});
 
-		JButton button_2 = new JButton("LogOut");
+		JButton button_2 = new JButton("Logout");
 		button_2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

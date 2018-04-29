@@ -1,5 +1,10 @@
 package HOM;
 
+/**
+ * The dash board for the head office management.
+ * 
+ * */
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -84,7 +89,7 @@ public class HOMViewpoint {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frame.setVisible(false);
-				RecomendationsMonth f = new RecomendationsMonth();
+				RecommendationsMonth f = new RecommendationsMonth();
 				f.main(null);
 			}
 		});

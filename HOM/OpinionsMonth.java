@@ -1,5 +1,11 @@
 package HOM;
 
+/**
+ * Head Office Management.
+ * Summary of legal opinions given each month.
+ * 
+ * */
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -25,11 +31,6 @@ import java.sql.SQLException;
 import java.awt.Font;
 import javax.swing.JScrollPane;
 
-/**
- * Head Office Management.
- * Summary of legal opinions given each month.
- * 
- * */
 public class OpinionsMonth {
 
 	private JFrame frame;

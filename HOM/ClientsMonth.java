@@ -1,5 +1,11 @@
 package HOM;
 
+/**
+ * Head Office Management.
+ * The numbers of clients who attended each branch each month.
+ * 
+ * */
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -27,11 +33,6 @@ import java.sql.SQLException;
 
 import javax.swing.JScrollPane;
 
-/**
- * Head Office Management.
- * The numbers of clients who attended each branch each month.
- * 
- * */
 public class ClientsMonth {
 
 	private JFrame frame;

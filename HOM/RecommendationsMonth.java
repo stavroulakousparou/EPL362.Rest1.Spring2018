@@ -1,5 +1,10 @@
 package HOM;
 
+/**
+ * Summary of the recommendation given each month.
+ * 
+ */
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -27,10 +32,6 @@ import java.sql.SQLException;
 
 import javax.swing.JScrollPane;
 
-/**
- * Summary of the recommendation given each month.
- * 
- */
 
 public class RecommendationsMonth {
 
@@ -48,7 +49,7 @@ public class RecommendationsMonth {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RecomendationsMonth window = new RecomendationsMonth();
+					RecommendationsMonth window = new RecommendationsMonth();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -60,7 +61,7 @@ public class RecommendationsMonth {
 	/**
 	 * Create the application.
 	 */
-	public RecomendationsMonth() {
+	public RecommendationsMonth() {
 		initialize();
 	}
 

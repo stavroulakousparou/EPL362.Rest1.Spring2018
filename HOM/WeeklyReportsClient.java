@@ -1,5 +1,11 @@
 package HOM;
 
+/**
+ *  Head Office Management.
+ *  Weekly Report for each Client.
+ *  
+ * */
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -19,20 +25,22 @@ import GUI.*;
 import javax.swing.JTable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URI;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
 
 public class WeeklyReportsClient {
 
 	private JFrame frame;
 	private JTextField client_txt;
 	private JTable table;
+	
+	private String weekly = "";
+
 
 	/**
 	 * Launch the application.
@@ -73,7 +81,7 @@ public class WeeklyReportsClient {
 		client_txt = new JTextField();
 		client_txt.setColumns(10);
 
-		JButton button = new JButton("Refresh");
+		JButton button = new JButton("Search");
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -104,9 +112,32 @@ public class WeeklyReportsClient {
 
 					if (rs.next()) {
 						do {
-							model.addRow(new Object[] { rs.getString("DAYOFWEEK(`Date`)"),
-									rs.getString("COUNT(DISTINCT Recommendation)"),
-									rs.getString("COUNT(DISTINCT LegalOpinion)") });
+							weekly = rs.getString(1);
+
+							switch (weekly) {
+							case "1": model.addRow(new Object[] { "Sunday", rs.getString(2),rs.getString(3) });
+									  break;
+							
+							case "2": model.addRow(new Object[] { "Monday", rs.getString(2),rs.getString(3) });
+							          break;
+							 
+							case "3": model.addRow(new Object[] { "Tuesday", rs.getString(2),rs.getString(3) });
+							          break;
+							          
+							case "4": model.addRow(new Object[] { "Wednesday", rs.getString(2),rs.getString(3) });
+							  break;
+					
+							case "5": model.addRow(new Object[] { "Tuesday", rs.getString(2),rs.getString(3) });
+					          break;
+					 
+							case "6": model.addRow(new Object[] { "Friday", rs.getString(2),rs.getString(3) });
+					          break;
+					          
+							case "7": model.addRow(new Object[] { "Saturday", rs.getString(2),rs.getString(3) });
+					          break;
+									  
+							}
+							
 						} while (rs.next());
 					} else
 						JOptionPane.showMessageDialog(frame, "No results.");
