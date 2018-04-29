@@ -79,7 +79,7 @@ public class ClientsMonth {
 		JLabel lblClientsPerBranch = new JLabel("Clients Per Branch Each Month");
 		lblClientsPerBranch.setFont(new Font("Arial", Font.BOLD, 16));
 
-		JButton btnRefresh = new JButton("Refresh");
+		JButton btnRefresh = new JButton("Search");
 		btnRefresh.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -144,7 +144,7 @@ public class ClientsMonth {
 				}
 		});
 
-		JButton btnGoback = new JButton("GoBack");
+		JButton btnGoback = new JButton("Back");
 		btnGoback.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -154,7 +154,7 @@ public class ClientsMonth {
 			}
 		});
 
-		JButton btnLogout = new JButton("LogOut");
+		JButton btnLogout = new JButton("Logout");
 		btnLogout.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

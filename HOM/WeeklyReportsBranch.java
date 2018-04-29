@@ -41,7 +41,6 @@ public class WeeklyReportsBranch {
 
 	private String numOfClients = "";
 	private String weekly = "";
-	private String day = "";
 	 
 	private static Connection conn = null;
 

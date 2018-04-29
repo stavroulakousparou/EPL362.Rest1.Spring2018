@@ -80,7 +80,7 @@ public class AppTimeWait {
 		frame.setBounds(100, 100, 780, 375);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JLabel lblClientTimesWaited = new JLabel("Client Times Waited");
+		JLabel lblClientTimesWaited = new JLabel("Completed Consultations");
 		lblClientTimesWaited.setFont(new Font("Arial", Font.BOLD, 16));
 
 		JLabel lblEnterClientId = new JLabel("Client Id:");
@@ -88,7 +88,7 @@ public class AppTimeWait {
 		client_txt = new JTextField();
 		client_txt.setColumns(10);
 
-		JButton button = new JButton("Refresh");
+		JButton button = new JButton("Search");
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -106,7 +106,7 @@ public class AppTimeWait {
 
 				// If connection Failed
 				if (conn == null) {
-					System.out.println("Connectio Failes");
+					System.out.println("Connection Failed");
 				}
 				
 				boolean flag = false;
@@ -141,7 +141,7 @@ public class AppTimeWait {
 					
 					// when the user enter wrong
 					if(!flag) {
-						JOptionPane.showMessageDialog(frame, "WRONG client id! Enter again!");
+						JOptionPane.showMessageDialog(frame, "No results");
 					}
 				}catch(SQLException e1) {
 					e1.printStackTrace();
@@ -150,8 +150,8 @@ public class AppTimeWait {
 			}
 		});
 
-		JButton button_1 = new JButton("GoBack");
-		button_1.addMouseListener(new MouseAdapter() {
+		JButton btnBack = new JButton("Back");
+		btnBack.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frame.setVisible(false);
@@ -160,8 +160,8 @@ public class AppTimeWait {
 			}
 		});
 
-		JButton button_2 = new JButton("LogOut");
-		button_2.addMouseListener(new MouseAdapter() {
+		JButton btnLogout = new JButton("Logout");
+		btnLogout.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frame.setVisible(false);
@@ -177,7 +177,7 @@ public class AppTimeWait {
 				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup().addContainerGap().addGroup(groupLayout
 								.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup().addGap(467).addComponent(button_1,
+								.addGroup(groupLayout.createSequentialGroup().addGap(467).addComponent(btnBack,
 										GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE))
 								.addGroup(groupLayout.createSequentialGroup()
 										.addComponent(lblEnterClientId, GroupLayout.PREFERRED_SIZE, 88,
@@ -188,7 +188,7 @@ public class AppTimeWait {
 										.addGap(57)
 										.addComponent(button, GroupLayout.PREFERRED_SIZE, 86,
 												GroupLayout.PREFERRED_SIZE)
-										.addGap(132).addComponent(button_2, GroupLayout.PREFERRED_SIZE, 93,
+										.addGap(132).addComponent(btnLogout, GroupLayout.PREFERRED_SIZE, 93,
 												GroupLayout.PREFERRED_SIZE))))
 						.addGroup(groupLayout.createSequentialGroup().addGap(207).addComponent(lblClientTimesWaited))
 						.addGroup(groupLayout.createSequentialGroup().addGap(22).addComponent(scrollPane,
@@ -197,7 +197,7 @@ public class AppTimeWait {
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(Alignment.TRAILING,
 				groupLayout.createSequentialGroup().addContainerGap().addComponent(lblClientTimesWaited).addGap(28)
 						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 125, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED, 41, Short.MAX_VALUE).addComponent(button_1)
+						.addPreferredGap(ComponentPlacement.RELATED, 41, Short.MAX_VALUE).addComponent(btnBack)
 						.addGap(1)
 						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup().addGap(4).addComponent(lblEnterClientId))
@@ -205,7 +205,7 @@ public class AppTimeWait {
 										GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 										GroupLayout.PREFERRED_SIZE))
 								.addComponent(button)
-								.addGroup(groupLayout.createSequentialGroup().addGap(17).addComponent(button_2)))
+								.addGroup(groupLayout.createSequentialGroup().addGap(17).addComponent(btnLogout)))
 						.addGap(48)));
 
 		table = new JTable();

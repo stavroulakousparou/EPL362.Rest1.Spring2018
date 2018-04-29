@@ -77,7 +77,7 @@ public class OpinionsMonth {
 		branch_txt = new JTextField();
 		branch_txt.setColumns(10);
 
-		JButton button = new JButton("Refresh");
+		JButton button = new JButton("Search");
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -95,7 +95,7 @@ public class OpinionsMonth {
 
 				// If connection Failed
 				if (conn == null) {
-					System.out.println("Connectio Failes");
+					System.out.println("Connection Failed");
 				}
 				
 				boolean flag = false;
@@ -132,7 +132,7 @@ public class OpinionsMonth {
 			}
 		});
 
-		JButton goBack = new JButton("GoBack");
+		JButton goBack = new JButton("Back");
 		goBack.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -142,7 +142,7 @@ public class OpinionsMonth {
 			}
 		});
 
-		JButton logOutBut = new JButton("LogOut");
+		JButton logOutBut = new JButton("Logout");
 		logOutBut.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

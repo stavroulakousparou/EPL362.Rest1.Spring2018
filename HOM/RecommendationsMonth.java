@@ -85,7 +85,7 @@ public class RecommendationsMonth {
 		branch_txt = new JTextField();
 		branch_txt.setColumns(10);
 
-		JButton button = new JButton("Refresh");
+		JButton button = new JButton("Search");
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -144,7 +144,7 @@ public class RecommendationsMonth {
 		});
 
 		// Go back button
-		JButton goBackBtn = new JButton("GoBack");
+		JButton goBackBtn = new JButton("Back");
 		goBackBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -155,7 +155,7 @@ public class RecommendationsMonth {
 		});
 
 		// Log out button
-		JButton logoutBtn = new JButton("LogOut");
+		JButton logoutBtn = new JButton("Logout");
 		logoutBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

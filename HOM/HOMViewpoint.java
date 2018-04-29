@@ -105,7 +105,7 @@ public class HOMViewpoint {
 			}
 		});
 		
-		JButton btnClientTimesWaited = new JButton("Client Times Waited");
+		JButton btnClientTimesWaited = new JButton("View Completed Consultations");
 		btnClientTimesWaited.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnClientTimesWaited.addMouseListener(new MouseAdapter() {
 			@Override
