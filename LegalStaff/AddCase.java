@@ -1,5 +1,10 @@
 package LegalStaff;
 
+/**
+ * A legal staff add a new case.
+ * 
+ * */
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -82,7 +87,7 @@ public class AddCase {
 		JComboBox cb_ml = new JComboBox();
 		cb_ml.setModel(new DefaultComboBoxModel(new String[] {"0", "1"}));
 		
-		JLabel lblClient = new JLabel("Client");
+		JLabel lblClient = new JLabel("Client ID");
 		
 		client_txt = new JTextField();
 		client_txt.setColumns(10);
@@ -92,7 +97,7 @@ public class AddCase {
 		lawyer_txt = new JTextField();
 		lawyer_txt.setColumns(10);
 		
-		JButton btnLogout = new JButton("LogOut");
+		JButton btnLogout = new JButton("Logout");
 		btnLogout.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -102,7 +107,7 @@ public class AddCase {
 			}
 		});
 		
-		JButton btnGoback = new JButton("GoBack");
+		JButton btnGoback = new JButton("Back");
 		btnGoback.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -139,7 +144,7 @@ public class AddCase {
 				}
 				
 				String sql = "INSERT INTO `Case`(`Strategy`, `Details`, `Flagged_ml`, `ClientID`, `LawyerID`) VALUES ('" + strategy
-						+ "', '" + details + "', " + ml + ", '" + clientID + "', " + lawyer + ")";
+						+ "', '" + details + "', '" + ml + "', '" + clientID + "', '" + lawyer + "')";
 		
 				PreparedStatement statement = null;
 				
