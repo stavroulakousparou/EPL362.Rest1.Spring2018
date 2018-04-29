@@ -32,7 +32,7 @@ import javax.swing.JScrollPane;
  * 
  */
 
-public class RecomendationsMonth {
+public class RecommendationsMonth {
 
 	private JFrame frame;
 	private JTextField branch_txt;
