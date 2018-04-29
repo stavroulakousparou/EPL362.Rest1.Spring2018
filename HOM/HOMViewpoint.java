@@ -111,7 +111,7 @@ public class HOMViewpoint {
 			}
 		});
 		
-		JButton btnWeeklyReportsPer = new JButton("Weekly Reports Per Brunch In Week");
+		JButton btnWeeklyReportsPer = new JButton("Weekly Reports Per Branch In Week");
 		btnWeeklyReportsPer.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnWeeklyReportsPer.setBounds(258, 66, 240, 23);
 		btnWeeklyReportsPer.addMouseListener(new MouseAdapter() {

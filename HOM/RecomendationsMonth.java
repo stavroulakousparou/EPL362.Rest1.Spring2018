@@ -28,7 +28,7 @@ import java.sql.SQLException;
 import javax.swing.JScrollPane;
 
 /**
- * Summary of the recommendation given each month
+ * Summary of the recommendation given each month.
  * 
  */
 
@@ -79,7 +79,7 @@ public class RecomendationsMonth {
 		JLabel lblRecomendations = new JLabel("Recomendations Per Month");
 		lblRecomendations.setFont(new Font("Arial", Font.BOLD, 16));
 
-		JLabel label = new JLabel("Branch ID: ");
+		JLabel label = new JLabel("Branch id: ");
 
 		branch_txt = new JTextField();
 		branch_txt.setColumns(10);
@@ -91,6 +91,7 @@ public class RecomendationsMonth {
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
 				model.setRowCount(0);
 				String branchID = branch_txt.getText();
+				
 				if (branchID.equals("")) {
 					JOptionPane.showMessageDialog(frame, "Please enter a branch id!");
 					return;
@@ -101,7 +102,7 @@ public class RecomendationsMonth {
 
 				// If connection Failed
 				if (conn == null) {
-					System.out.println("Connectio Failes");
+					System.out.println("Connection Failed");
 				}
 
 				boolean flag = false;

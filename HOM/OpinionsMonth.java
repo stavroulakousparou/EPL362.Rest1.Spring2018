@@ -26,6 +26,7 @@ import java.awt.Font;
 import javax.swing.JScrollPane;
 
 /**
+ * Head Office Management.
  * Summary of legal opinions given each month.
  * 
  * */
@@ -70,7 +71,7 @@ public class OpinionsMonth {
 		frame.setBounds(100, 100, 589, 367);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JLabel label = new JLabel("Enter Branch Id");
+		JLabel label = new JLabel("Branch id: ");
 
 		branch_txt = new JTextField();
 		branch_txt.setColumns(10);
