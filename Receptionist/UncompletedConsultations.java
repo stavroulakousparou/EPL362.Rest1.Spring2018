@@ -14,7 +14,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import GUI.Account;
 import GUI.loginPage;
+import LegalStaff.LegalStaffViewpoint;
+
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -69,13 +73,19 @@ public class UncompletedConsultations {
 		JLabel lblUncompletedConsultations = new JLabel("Uncompleted Consultations");
 		lblUncompletedConsultations.setFont(new Font("Arial", Font.BOLD, 16));
 
-		JButton btnGoBack = new JButton("Go back");
+		JButton btnGoBack = new JButton("Back");
 		btnGoBack.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frame.setVisible(false);
-				ReceptionistViewpoint f = new ReceptionistViewpoint();
-				f.main(null);
+				Account account = Account.getUniqueInstance();
+				if (account.getRole().equals("Receptionist")) {
+					ReceptionistViewpoint f = new ReceptionistViewpoint();
+					f.main(null);
+				} else {
+					LegalStaffViewpoint f = new LegalStaffViewpoint();
+					f.main(null);
+				}
 			}
 		});
 
@@ -114,11 +124,11 @@ public class UncompletedConsultations {
 					ResultSet rs;
 
 					try {
-						
+
 						// create and execute statement
 						statement = conn.prepareStatement(sql);
 						statement.executeUpdate();
-						
+
 					} catch (SQLException ex) {
 						ex.printStackTrace();
 					}
@@ -136,15 +146,14 @@ public class UncompletedConsultations {
 				comp.main(null);
 			}
 		});
-		
+
 		JLabel lblUpdateAConsultation = new JLabel("Update a consultation to failed:");
-		
 
 		textField_fail = new JTextField();
 		textField_fail.setColumns(10);
 
 		JButton button_update_fail = new JButton("Update");
-		
+
 		button_update_fail.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -161,11 +170,11 @@ public class UncompletedConsultations {
 					ResultSet rs;
 
 					try {
-						
+
 						// create and execute statement
 						statement = conn.prepareStatement(sql);
 						statement.executeUpdate();
-						
+
 					} catch (SQLException ex) {
 						ex.printStackTrace();
 					}
@@ -182,75 +191,61 @@ public class UncompletedConsultations {
 				comp.main(null);
 			}
 		});
-		
-		
-		
+
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(204)
-					.addComponent(lblUncompletedConsultations)
-					.addContainerGap(254, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 617, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(48, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(textField_fail, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(button_update_fail, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, 216, Short.MAX_VALUE)
-									.addComponent(btnGoBack, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(btnLogout, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
-									.addGap(49))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblUpdateAConsultation, GroupLayout.PREFERRED_SIZE, 229, GroupLayout.PREFERRED_SIZE)
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup().addGap(204).addComponent(lblUncompletedConsultations)
+						.addContainerGap(254, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup().addContainerGap()
+						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 617, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(48, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup().addGap(18).addGroup(groupLayout
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup().addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 										.addGroup(groupLayout.createSequentialGroup()
-											.addComponent(textField_complete, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(btnUpdate_complete)))
-									.addContainerGap(424, Short.MAX_VALUE))))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblAddCompletedConsultation)
-							.addContainerGap(424, Short.MAX_VALUE))))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblUncompletedConsultations, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 158, GroupLayout.PREFERRED_SIZE)
-					.addGap(29)
-					.addComponent(lblAddCompletedConsultation)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnUpdate_complete)
-						.addComponent(textField_complete, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(30)
-					.addComponent(lblUpdateAConsultation)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(20)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnLogout)
-								.addComponent(btnGoBack)))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(12)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(textField_fail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(button_update_fail))))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+												.addComponent(textField_fail, GroupLayout.PREFERRED_SIZE, 88,
+														GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addComponent(button_update_fail, GroupLayout.PREFERRED_SIZE, 88,
+														GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.RELATED, 216, Short.MAX_VALUE)
+												.addComponent(btnGoBack, GroupLayout.PREFERRED_SIZE, 97,
+														GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(btnLogout,
+														GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+												.addGap(49))
+										.addGroup(groupLayout.createSequentialGroup().addGroup(groupLayout
+												.createParallelGroup(Alignment.LEADING)
+												.addComponent(lblUpdateAConsultation, GroupLayout.PREFERRED_SIZE, 229,
+														GroupLayout.PREFERRED_SIZE)
+												.addGroup(groupLayout.createSequentialGroup()
+														.addComponent(textField_complete, GroupLayout.PREFERRED_SIZE,
+																88, GroupLayout.PREFERRED_SIZE)
+														.addPreferredGap(ComponentPlacement.RELATED)
+														.addComponent(btnUpdate_complete)))
+												.addContainerGap(424, Short.MAX_VALUE))))
+						.addGroup(groupLayout.createSequentialGroup().addComponent(lblAddCompletedConsultation)
+								.addContainerGap(424, Short.MAX_VALUE)))));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+				.createSequentialGroup().addContainerGap()
+				.addComponent(lblUncompletedConsultations, GroupLayout.PREFERRED_SIZE, 19, GroupLayout.PREFERRED_SIZE)
+				.addGap(18).addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 158, GroupLayout.PREFERRED_SIZE)
+				.addGap(29).addComponent(lblAddCompletedConsultation).addPreferredGap(ComponentPlacement.RELATED)
+				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(btnUpdate_complete)
+						.addComponent(textField_complete, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE))
+				.addGap(30).addComponent(lblUpdateAConsultation)
+				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup().addGap(20)
+								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(btnLogout)
+										.addComponent(btnGoBack)))
+						.addGroup(groupLayout.createSequentialGroup().addGap(12)
+								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(textField_fail, GroupLayout.PREFERRED_SIZE,
+												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(button_update_fail))))
+				.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
 		table = new JTable();
 		scrollPane.setViewportView(table);
@@ -276,14 +271,14 @@ public class UncompletedConsultations {
 		model.setRowCount(0);
 
 		ConnectDB connection = new ConnectDB();
-		//establish connection
+		// establish connection
 		conn = connection.getDBConnection();
 
 		String sql = "Select * FROM `Consultation` WHERE `Completed`=0";
 		PreparedStatement statement = null;
 		ResultSet rs;
 		try {
-			
+
 			// create and execute statement
 			statement = conn.prepareStatement(sql);
 			rs = statement.executeQuery();

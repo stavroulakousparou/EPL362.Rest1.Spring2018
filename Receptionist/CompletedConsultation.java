@@ -10,21 +10,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-
 import javax.swing.JLabel;
-
 import javax.swing.JScrollPane;
-
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
-
 import GUI.loginPage;
-
 import javax.swing.JList;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

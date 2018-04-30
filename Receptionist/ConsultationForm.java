@@ -35,6 +35,7 @@ public class ConsultationForm {
 	private JTextField recomandation_txt;
 	private JTextField legalopinion_txt;
 	private Connection conn;
+	private JTextField textField_dropin;
 
 	/**
 	 * Launch the application.
@@ -64,13 +65,13 @@ public class ConsultationForm {
 	 */
 	private void initialize(String clientID) {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 488, 436);
+		frame.setBounds(100, 100, 537, 497);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JLabel lblAppointmentForm = new JLabel("Consultation Form");
 
 		JLabel lblDate = new JLabel("Date:");
-
+		
 		JComboBox cb_day = new JComboBox();
 		cb_day.setModel(new DefaultComboBoxModel(
 				new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16",
@@ -109,12 +110,18 @@ public class ConsultationForm {
 				String branchID = branch_txt.getText();
 				String recommendation = recomandation_txt.getText();
 				String legalopinion = legalopinion_txt.getText();
+				String dropin=textField_dropin.getText();
 
 				// check for empty text boxes
 				if (date.equals("") || hour.equals("") || clientID.equals("") || lawyer.equals("") || caseID.equals("")
 						|| branchID.equals("")) {
 					JOptionPane.showMessageDialog(frame, "Fill all fields");
-					return;
+					return; 
+				}
+				else if  (!dropin.equals("yes") && !dropin.equals("no")  ) {
+						JOptionPane.showMessageDialog(frame, "Please write yes/no in dropin field");
+						
+					
 				} else {
 
 					// add_cons_db();
@@ -122,7 +129,7 @@ public class ConsultationForm {
 					conn = connection.getDBConnection();
 
 					String sql = "INSERT INTO `Consultation`(`Date`,`Time`,`CaseID`,`ClientID`,`BranchID`,`LegalStaffID`,"
-							+ "`Recommendation`,`LegalOpinion`) VALUES (?,?,?,?,?,?,?,?)";
+							+ "`Recommendation`,`LegalOpinion`,`Drop_in`) VALUES (?,?,?,?,?,?,?,?,?)";
 					PreparedStatement statement = null;
 					try {
 
@@ -136,6 +143,7 @@ public class ConsultationForm {
 						statement.setString(6, lawyer);
 						statement.setString(7, recommendation);
 						statement.setString(8, legalopinion);
+						statement.setString(9, dropin);
 
 						statement.executeUpdate();
 
@@ -206,6 +214,11 @@ public class ConsultationForm {
 		JLabel lblNewLabel_3 = new JLabel("Month");
 		
 		JLabel lblYear = new JLabel("Year");
+		
+		JLabel lblNewLabel_4 = new JLabel("Drop in (yes/no)");
+		
+		textField_dropin = new JTextField();
+		textField_dropin.setColumns(10);
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -229,28 +242,33 @@ public class ConsultationForm {
 							.addGap(40)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(branch_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-									.addComponent(lawyer_txt, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-									.addComponent(client_txt, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-									.addComponent(case_txt, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE))
 								.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-										.addComponent(recomandation_txt, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+										.addComponent(legalopinion_txt, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+												.addComponent(lawyer_txt, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+												.addComponent(client_txt, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+												.addComponent(case_txt, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE))
+											.addGap(74)
+											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+												.addComponent(lblNewLabel_4)
+												.addComponent(textField_dropin, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE)))
+										.addComponent(recomandation_txt, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
 										.addGroup(groupLayout.createSequentialGroup()
 											.addComponent(btnSubmit)
 											.addGap(18)
 											.addComponent(btnGoBack))
-										.addGroup(groupLayout.createSequentialGroup()
-											.addPreferredGap(ComponentPlacement.RELATED)
+										.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
 											.addComponent(lblDay)
-											.addPreferredGap(ComponentPlacement.RELATED)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
 											.addComponent(cb_day, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
 											.addComponent(lblNewLabel_3)
-											.addPreferredGap(ComponentPlacement.RELATED)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
 											.addComponent(cb_month, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE))
 										.addGroup(groupLayout.createSequentialGroup()
-											.addComponent(cb_hour, 0, 88, Short.MAX_VALUE)
+											.addComponent(cb_hour, 0, 104, Short.MAX_VALUE)
 											.addPreferredGap(ComponentPlacement.RELATED)
 											.addComponent(cb_minutes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 											.addGap(55)))
@@ -261,8 +279,7 @@ public class ConsultationForm {
 											.addPreferredGap(ComponentPlacement.RELATED)
 											.addComponent(year_txt, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE))
 										.addComponent(btnLogout, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE))
-									.addGap(103))
-								.addComponent(legalopinion_txt, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE))))
+									.addGap(142)))))
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
@@ -272,35 +289,43 @@ public class ConsultationForm {
 					.addComponent(lblAppointmentForm)
 					.addGap(32)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(cb_day, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblDate, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel_3)
-						.addComponent(cb_month, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblYear)
+						.addComponent(year_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblDay)
-						.addComponent(year_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(cb_day, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNewLabel_3)
+						.addComponent(cb_month, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTime, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(cb_hour, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(cb_minutes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblCase)
-						.addComponent(case_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel)
-						.addComponent(client_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel_1)
-						.addComponent(lawyer_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblBranch)
-						.addComponent(branch_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(18)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblCase)
+								.addComponent(case_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblNewLabel)
+								.addComponent(client_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblNewLabel_1)
+								.addComponent(lawyer_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblBranch)
+								.addComponent(branch_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED))
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblNewLabel_4)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(textField_dropin, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(36)))
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNewLabel_2)
 						.addComponent(recomandation_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -317,5 +342,4 @@ public class ConsultationForm {
 		);
 		frame.getContentPane().setLayout(groupLayout);
 	}
-
 }

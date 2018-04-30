@@ -82,12 +82,12 @@ public class ViewClient {
 		id_txt = new JTextField();
 		id_txt.setColumns(10);
 
-		JLabel lblUnwillingnes = new JLabel("Unwillingness");
+		JLabel lblUnwillingnes = new JLabel("Risk Percentage");
 
 		unwillingness_txt = new JTextField();
 		unwillingness_txt.setColumns(10);
 
-		JLabel lblComments = new JLabel("Comments");
+		JLabel lblComments = new JLabel("Unwilling Strategies");
 
 		comments_txt = new JTextField();
 		comments_txt.setColumns(10);
@@ -96,12 +96,8 @@ public class ViewClient {
 		conn = connection.getDBConnection();
 
 		String sql = "Select * FROM `Client` WHERE `ClientID`=" + cID;
-		String sql2 = "Select * FROM `Consultation` WHERE `ClientID`=" + cID;
 		PreparedStatement statement = null;
 		ResultSet rs;
-
-		PreparedStatement statement2 = null;
-		ResultSet rs2;
 
 		try {
 
@@ -114,15 +110,15 @@ public class ViewClient {
 				surname_txt.setText(rs.getString("LastName"));
 				id_txt.setText(cID);
 				unwillingness_txt.setText(rs.getString("RiskPercentage"));
-				
+				comments_txt.setText(rs.getString("Unwilling"));
+				name_txt.setEditable(false);
+				surname_txt.setEditable(false);
+				id_txt.setEditable(false);
+				unwillingness_txt.setEditable(false);
+				comments_txt.setEditable(false);
+
 			}
 
-			statement2 = conn.prepareStatement(sql2);
-			rs2 = statement2.executeQuery();
-
-			while (rs2.next()) {
-				comments_txt.setText(comments_txt.getText() + "," + rs2.getString("Comments"));
-			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -168,91 +164,80 @@ public class ViewClient {
 		});
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(2)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblSurname)
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+				.createSequentialGroup().addGap(2)
+				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(lblSurname)
 						.addComponent(lblNewLabel)
 						.addComponent(lblId, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblUnwillingnes, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblComments))
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(26)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblViewClient)
+						.addComponent(lblComments)
+						.addComponent(lblUnwillingnes, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE))
+				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+						.createSequentialGroup().addGap(26)
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(lblViewClient)
 								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-									.addGroup(groupLayout.createSequentialGroup()
-										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-											.addComponent(id_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-											.addComponent(name_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-										.addPreferredGap(ComponentPlacement.UNRELATED))
-									.addComponent(surname_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(151)
-									.addComponent(btnCreateConsultation, GroupLayout.PREFERRED_SIZE, 0, GroupLayout.PREFERRED_SIZE))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(26)
-									.addComponent(btnLogout, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnGoBack))))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(29)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(unwillingness_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(comments_txt, GroupLayout.PREFERRED_SIZE, 195, GroupLayout.PREFERRED_SIZE))))
-					.addContainerGap())
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(19)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(43)
-									.addComponent(name_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-										.addComponent(lblSurname)
-										.addComponent(surname_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(29)
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 										.addGroup(groupLayout.createSequentialGroup()
-											.addGap(22)
-											.addComponent(btnCreateConsultation, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE))
-										.addGroup(groupLayout.createSequentialGroup()
-											.addGap(18)
-											.addComponent(lblNewLabel)))))
-							.addGap(18)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(id_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addGroup(groupLayout.createSequentialGroup()
-											.addComponent(unwillingness_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-											.addGap(18)
-											.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-												.addComponent(comments_txt, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-												.addComponent(lblComments)))
-										.addComponent(lblUnwillingnes)))
-								.addComponent(lblId)))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(16)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnLogout)
-								.addComponent(lblViewClient)
-								.addComponent(btnGoBack))))
-					.addGap(263))
-		);
+												.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+														.addComponent(id_txt, GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+														.addComponent(name_txt, GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+												.addPreferredGap(ComponentPlacement.UNRELATED))
+										.addComponent(surname_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.PREFERRED_SIZE)))
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup().addGap(151).addComponent(
+										btnCreateConsultation, GroupLayout.PREFERRED_SIZE, 0,
+										GroupLayout.PREFERRED_SIZE))
+								.addGroup(groupLayout.createSequentialGroup().addGap(26)
+										.addComponent(btnLogout, GroupLayout.PREFERRED_SIZE, 83,
+												GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED).addComponent(btnGoBack))))
+						.addGroup(groupLayout.createSequentialGroup().addGap(29)
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(unwillingness_txt, GroupLayout.PREFERRED_SIZE,
+												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(comments_txt, GroupLayout.PREFERRED_SIZE, 195,
+												GroupLayout.PREFERRED_SIZE))))
+				.addContainerGap()));
+		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+				.createSequentialGroup()
+				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+						.createSequentialGroup().addGap(19)
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+								.createSequentialGroup().addGap(43)
+								.addComponent(name_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lblSurname)
+										.addComponent(surname_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.PREFERRED_SIZE)))
+								.addGroup(groupLayout.createSequentialGroup().addGap(29)
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+												.addGroup(groupLayout.createSequentialGroup().addGap(22).addComponent(
+														btnCreateConsultation, GroupLayout.PREFERRED_SIZE, 60,
+														GroupLayout.PREFERRED_SIZE))
+												.addGroup(groupLayout.createSequentialGroup().addGap(18)
+														.addComponent(lblNewLabel)))))
+						.addGap(18)
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(id_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblId))
+						.addGap(18)
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(unwillingness_txt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblUnwillingnes))
+						.addGap(18).addGroup(
+								groupLayout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(comments_txt, GroupLayout.PREFERRED_SIZE, 48,
+												GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblComments)))
+						.addGroup(groupLayout.createSequentialGroup().addGap(16)
+								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(btnLogout)
+										.addComponent(lblViewClient).addComponent(btnGoBack))))
+				.addGap(263)));
 		frame.getContentPane().setLayout(groupLayout);
 	}
-
 
 }
